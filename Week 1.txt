@@ -1,0 +1,257 @@
+Week-1
+LinkedLinked Merging
+
+
+class Node{
+  Node?next;
+  dynamic data;
+  Node(this.data);
+}
+Node?mergeLinkedLists(Node?headA,Node?headB){
+  if(headA==null)return headB;
+  if(headB==null)return headA;
+  if(headA.data<headB.data){
+      headA.next=mergeLinkedLists(headA.next, headB);
+      return headA;
+  }
+  else{
+    headB.next=mergeLinkedLists(headA, headB.next);
+    return headB;
+  }
+  
+  
+}
+printdata(Node?head){
+  Node?current=head;
+  while (current!=null) {
+    print(current.data);
+    current=current.next;
+  }
+}
+void main(){
+  Node?headA=Node(1);
+  headA.next=Node(2);
+  headA.next!.next=Node(3);
+  Node?headB=Node(4);
+  headB.next=Node(5);
+  headB.next!.next=Node(6);
+  Node?merged=mergeLinkedLists(headA, headB);
+  printdata(merged);
+  
+}
+___________________________________________
+
+Linkedlist
+
+class Node{
+  Node?next;
+  dynamic data;
+  Node(this.data);
+}
+class LinkedList{
+  Node?head;
+  Node?tail;
+  add(data){
+    Node?newnode=Node(data);
+    if(head==null){
+      head=newnode;
+      tail=newnode;
+    }
+    else{
+      tail!.next=newnode;
+      tail=newnode;
+    }
+  }
+  printdata(){
+    Node?current=head;
+    while (current!=null) {
+      print(current.data);
+      current=current.next;
+
+    }
+  }
+}
+void main(){
+  LinkedList a= LinkedList();
+  a..add(5)..add(6)..add(7)..printdata();
+}
+___________________________________________
+Convert to array
+
+  toarray(){
+    List array=[];
+    Node?current=head;
+    while (current!=null) {
+      array.add(current.data);
+      current=current.next;
+    }
+    return array;
+  }
+___________________________________________
+Delete an element
+
+  delete(dynamic value) {
+    Node? prev = null;
+    for (Node? current = head;
+        current != null;
+        prev = current, current = current.next) {
+      if (current.data == value) {
+        if (prev != current) {
+          prev!.next = current.next;
+        }
+        if (head == current) {
+          head = head!.next;
+        }
+        if (tail == current) {
+          tail = prev;
+        }
+      }
+    }
+  }
+
+___________________________________________
+Duplicate removing
+
+duplicate() {
+    Node? current = head;
+    while (current != null) {
+      Node? runner = current;
+      while (runner!.next != null) {
+        if (runner.next!.data == current.data) {
+          runner.next = runner.next!.next;
+        } else {
+          runner = runner.next;
+        }
+      }
+      current = current.next;
+    }
+  }
+
+___________________________________________
+
+Reversing a linkedlist
+
+  reversing(){
+    Node?prev=null;
+    Node?nextnode;
+    Node?current=head;
+    while (current!=null) {
+      nextnode=current.next;
+      current.next=prev;
+      prev=current;
+      current=nextnode;
+    }
+    head=tail;
+    tail=prev;
+  }
+
+___________________________________________
+
+Binary search
+
+binarySearch(List<int>array,int target){
+  int left=0;
+  int right=array.length-1;
+  while (left<=right) {
+    int mid=(left+right)~/2;
+    if(array[mid]==target){
+      return mid;
+    }
+    if(array[mid]<target){
+      left=mid+1;
+    }
+    else{
+      right=mid-1;
+    }
+  }
+}
+
+___________________________________________
+
+To find wether two numbers are there or not
+
+
+  bool isnumbersthere(int num1,int num2){
+  bool isnum1there=false;
+  bool isnum2there=false;
+  Node?current=head;
+  while (current!=null) {
+    if(num1==current.data){
+      isnum1there=true;
+    }
+    if(num2==current.data){
+      isnum2there=true;
+    }
+    if(isnum2there==true&&isnum1there==true){
+      return true;
+    }
+    current=current.next;
+  }
+  return false;
+}
+
+
+__________________________________________
+
+Add at the head of a Linkedlist
+
+  addathead(int value){
+    Node?newnode=Node(value);
+    newnode.next=head;
+    head=newnode;
+  }
+
+__________________________________________
+
+
+
+String reversal
+
+
+ binish(String anwaf){
+  String name='';
+  for(int i=anwaf.length-1;i>=0;i--){
+    name+=anwaf[i];
+  }
+  return name;
+}
+
+
+___________________________________________
+
+Adding a value at the tail on linkedlist
+
+addAtTail(dynamic value){
+  Node?current=head;
+  Node?newnode=Node(value);
+  while (current?.next!=null) {
+    current=current!.next;
+  }
+  current!.next=newnode;
+}
+
+___________________________________________
+
+
+deletion inn doubly linked list
+
+  delete1(dynamic value) {
+    Node? current = head;
+    while (current != null) {
+      if (current.data == value) {
+        if (current == head && current == tail) {
+          head = null;
+          tail = null;
+        } else if (current == head) {
+          head = head!.next;
+          head!.prev = null;
+        } else if (current == tail) {
+          tail = tail!.prev;
+          tail!.next = null;
+        } else {
+          current.prev!.next = current.prev;
+          current.next!.prev = current.next;
+        }
+      }
+    }
+  }

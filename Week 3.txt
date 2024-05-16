@@ -1,0 +1,477 @@
+Week-3(Data Structures)
+Tree
+
+class TreeNode {
+  TreeNode? left;
+  TreeNode? right;
+  dynamic data;
+  TreeNode(this.data);
+}
+
+class BinarySearchTree {
+  TreeNode? root;
+  add(value) {
+    if (root == null) {
+      root = TreeNode(value);
+    } else {
+      recursiveAdd(root!, value);
+    }
+  }
+
+  recursiveAdd(TreeNode node, value) {
+    if (value < node.data) {
+      if (node.left == null) {
+        node.left = TreeNode(value);
+      } else {
+        recursiveAdd(node.left!, value);
+      }
+    } else {
+      if (value > node.data) {
+        if (node.right == null) {
+          node.right = TreeNode(value);
+        } else {
+          recursiveAdd(node.right!, value);
+        }
+      }
+    }
+  }
+
+  display(TreeNode? node) {
+    if (node != null) {
+      display(node.left);
+      print(node.data);
+      display(node.right);
+    }
+  }
+
+  delete(value) {
+    root = recursiveDelete(root!, value);
+  }
+
+  recursiveDelete(TreeNode node, value) {
+    if (node == null) {
+      return node;
+    }
+    if (value < node.data) {
+      recursiveDelete(node.left!, value);
+    } else if (value > node.data) {
+      recursiveDelete(node.right!no, value);
+    } else {
+      if (node.left == null) {
+        return node.right;
+      } else if (node.right == null) {
+        return node.left;
+
+      }
+      node.data=minvalue(node.right!);
+      node.right=recursiveDelete(node.right!, value);
+    }
+return node;
+  }
+  int minvalue(TreeNode node){
+    int minvalue=node.data;
+    while(node.left!=null){
+      minvalue=node.left!.data;
+      node=node.left!;
+    }
+    return minvalue;
+  }
+
+sorted(TreeNode node){
+  List result=[];
+  if(node!=null){
+    result.addAll(sorted(node.left!));
+    result.addAll(node.data);
+    result.addAll(sorted(node.right!));
+  }
+  return result;
+}
+isBiOrNot(TreeNode node){
+  final test=sorted(node);
+  for(int i=1;i<test.length;i++){
+    if(test[i]<=test[i-1]){
+      return false;
+    }
+  }
+  return true;
+}
+}
+
+void main() {
+  BinarySearchTree bst = BinarySearchTree();
+}
+
+Min-Heap
+
+class MinHeap {
+ late List<int> heap;
+
+  MinHeap() {
+    heap = [];
+  }
+
+  void build(List<int> array) {
+    heap = List.from(array);
+    for (int i = (heap.length ~/ 2) - 1; i >= 0; i--) {
+      heapify(i);
+    }
+  }
+
+  void insert(int value) {
+    heap.add(value);
+    bubbleUp(heap.length - 1);
+  }
+
+  int remove() {
+    if (heap.isEmpty) {
+      throw Exception("Heap is empty");
+    }
+    int removedValue = heap[0];
+    heap[0] = heap.last;
+    heap.removeLast();
+    heapify(0);
+    return removedValue;
+  }
+
+  void heapify(int index) {
+    int smallest = index;
+    int leftChild = 2 * index + 1;
+    int rightChild = 2 * index + 2;
+
+    if (leftChild < heap.length && heap[leftChild] < heap[smallest]) {
+      smallest = leftChild;
+    }
+    if (rightChild < heap.length && heap[rightChild] < heap[smallest]) {
+      smallest = rightChild;
+    }
+
+    if (smallest != index) {
+      swap(index, smallest);
+      heapify(smallest);
+    }
+  }
+
+  void swap(int i, int j) {
+    int temp = heap[i];
+    heap[i] = heap[j];
+    heap[j] = temp;
+  }
+
+  void bubbleUp(int index) {
+    while (index > 0 && heap[index] < heap[(index - 1) ~/ 2]) {
+      swap(index, (index - 1) ~/ 2);
+      index = (index - 1) ~/ 2;
+    }
+  }
+
+  void printHeap() {
+    print(heap);
+  }
+}
+
+void main() {
+  MinHeap minHeap = MinHeap();
+  minHeap.build([3, 2, 1, 5, 4]);
+  minHeap.printHeap(); // Output: [1, 2, 3, 5, 4]
+}
+
+max-heap
+
+class MaXHeap {
+ late List<int> heap;
+
+  MaxHeap() {
+    heap = [];
+  }
+
+  void build(List<int> array) {
+    heap = List.from(array);
+    for (int i = (heap.length ~/ 2) - 1; i >= 0; i--) {
+      heapify(i);
+    }
+  }
+
+  void insert(int value) {
+    heap.add(value);
+    bubbleUp(heap.length - 1);
+  }
+
+  int remove() {
+    if (heap.isEmpty) {
+      throw Exception("Heap is empty");
+    }
+    int removedValue = heap[0];
+    heap[0] = heap.last;
+    heap.removeLast();
+    heapify(0);
+    return removedValue;
+  }
+
+  void heapify(int index) {
+    int largest = index;
+    int leftChild = 2 * index + 1;
+    int rightChild = 2 * index + 2;
+
+    if (leftChild < heap.length && heap[leftChild] > heap[largest]) {
+      largest = leftChild;
+    }
+    if (rightChild < heap.length && heap[rightChild] > heap[largest]) {
+      largest = rightChild;
+    }
+
+    if (largest != index) {
+      swap(index, largest);
+      heapify(largest);
+    }
+  }
+
+  void swap(int i, int j) {
+    int temp = heap[i];
+    heap[i] = heap[j];
+    heap[j] = temp;
+  }
+
+  void bubbleUp(int index) {
+    while (index > 0 && heap[index] > heap[(index - 1) ~/ 2]) {
+      swap(index, (index - 1) ~/ 2);
+      index = (index - 1) ~/ 2;
+    }
+  }
+
+  void printHeap() {
+    print(heap);
+  }
+}
+
+void main() {
+MaXHeap minHeap =MaXHeap();
+  minHeap.build([3, 2, 1, 5, 4]);
+  minHeap.printHeap(); // Output: [1, 2, 3, 5, 4]
+}
+
+
+Heap-Sort
+
+void heapSort(List arr){
+  int n=arr.length;
+  for(int i=(n~/2)-1;i>=0;i--){
+    heapify(arr,n,i);
+  }
+  for(int i=n-1;i>0;i--){
+    int temp=arr[0];
+    arr[0]=arr[i];
+    arr[i]=temp;
+      heapify(arr,i,0);
+
+  }
+}
+void heapify(List arr,int n,int i){
+int largest=i;
+int leftchild=2*i+1;
+int rightchild=2*i+2;
+
+if(leftchild<n&&arr[leftchild]>arr[largest]){
+  largest=leftchild;
+}
+if(rightchild<n&&arr[rightchild]>arr[largest]){
+  largest=rightchild;
+
+}
+if(largest!=i){
+  int temp=arr[i];
+  arr[i]=arr[largest];
+  arr[largest]=temp;
+  heapify(arr, n,largest);
+}
+
+}
+void main(){
+  List arr=[9,6,5,8,5,9,2];
+  print(arr);
+  heapSort(arr);
+  print(arr);
+}
+   	
+
+Trie
+
+class Trienode{
+ late Map<String,Trienode>children;
+ late bool isEndOfWord;
+ Trienode():children={},isEndOfWord=false;
+
+}
+class Trie{
+  late Trienode root;
+  Trie():root=Trienode();
+  void insert(String word){
+    Trienode node=root;
+    for(int i=0;i<word.length;i++){
+      String char=word[i];
+      if(!node.children.containsKey(char)){
+        node.children[char]=Trienode();
+      }
+      node=node.children[char]!;
+    }
+    node.isEndOfWord=true;
+  }
+ bool search(String word){
+    Trienode? node=searchVlaue(word);
+    return node!=null&&node.isEndOfWord;
+  }
+ Trienode? searchVlaue(String word){
+    Trienode node=root;
+    for(int i=0;i<word.length;i++){
+      String char=word[i];
+      if(node.children.containsKey(char)){
+        node=node.children[char]!;
+      }else{
+        return null;
+      }
+    }
+    return node;
+  }
+
+  delele(String word){
+    List path=[];
+    Trienode currentNode=root;
+    for(int i=0;i<word.length;i++){
+      String char=word[i];
+      if(!currentNode.children.containsKey(char)){
+        return false;
+      }
+      path.add(currentNode);
+      currentNode=currentNode.children[char]!;
+    }
+    if(!currentNode.isEndOfWord){
+      return false;
+    }
+    currentNode.isEndOfWord=false;
+
+    if(currentNode.children.isEmpty){
+      for(int i=word.length-1;i>=0;i--){
+        Trienode prevNode=path[i];
+        String char=word[i];
+        if(currentNode.isEndOfWord||currentNode.children.isNotEmpty){
+          break;
+        }
+        prevNode.children.remove(char);
+         currentNode=prevNode;
+      }
+    }
+
+    return true;
+  }
+  List getsuggesions(String word){
+    Trienode current=root;
+    for(int i=0;i<word.length;i++){
+      String char=word[i];
+      if(!current.children.containsKey(char)){
+        return [];
+      }
+      current=current.children[char]!;
+    }
+    return isprefixx(current,word);
+  }
+  isprefixx(Trienode node,String word){
+    List sugessions=[];
+    if(node.isEndOfWord){
+      sugessions.add(word);
+    }
+    node.children.forEach((char, newchild) {
+      sugessions.addAll(isprefixx(newchild, word+char));
+     });
+     return sugessions;
+  }
+}
+
+void main(){
+Trie trie=Trie();
+trie.insert("apple");
+trie.insert("applecat");
+trie.insert("appbou");
+trie.insert("applefruit");
+print(trie.search("apple"));
+print(trie.delele("apple"));
+print(trie.getsuggesions("apple"));
+}
+
+Graph
+class Graph {
+  late final int V; // Number of vertices
+  late final List<List<int>> adj; // Adjacency list
+
+  Graph(int vertices) {
+    this.V = vertices;
+    adj = List.generate(V, (_) => []);
+  }
+
+  // Function to add an edge between two vertices
+  void addEdge(int v, int w) {
+    adj[v].add(w);
+    adj[w].add(v); // For undirected graph
+  }
+
+
+bfs(int stratindex){
+  List visited=List.filled(V, false);
+  var queue=[];
+  visited[stratindex]=true;
+  queue.add(stratindex);
+  while(queue.isNotEmpty){
+    var s=queue.removeAt(0);
+    print("$s");
+    for(final u in adj[s]){
+      if(!visited[u]){
+        visited[u]=true;
+        queue.add(u);
+      }
+    }
+  }
+}
+bool hasCycle(List<List<int>>adj){
+  int V=adj.length;
+  List visited=List.generate(V, (_) => false);
+  bool dfs(int v,int parent){
+    visited[v]=true;
+    for(final u in adj[v]){
+      if(!visited[u]){
+        if(dfs(u, v)){
+          return true;
+        }
+      }
+      else if(u!=parent){
+        return true;
+      }
+    }
+    return false;
+  }
+  for(int i=0;i<V;i++){
+    if(!visited[i]&&dfs(i, -1)){
+      return true;
+    }
+  }
+  return false;
+
+}
+}
+
+
+  addingarray(List<int>arr){
+    List newarray=[];
+    int counter=1;
+    if(arr.length==null){
+        return arr;
+    }
+    for(int i=0;i<arr.length;i++){
+        newarray.add(arr[i]+counter);
+        counter++;
+    }
+    return newarray;
+}
+void main(){
+    List <int>arr= [4,6,9,10,23,24];
+   List sorted=addingarray(arr);
+   print(sorted);
+    
+}

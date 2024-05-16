@@ -1,0 +1,205 @@
+week-2
+
+Sorting Techniques
+
+bubbleSort(List array){
+  bool swapped;
+  int n=array.length;
+  do{
+    swapped=false;
+    for(int i=0;i<n-1;i++){
+      if(array[i]>array[i+1]){
+        int temp=array[i];
+        array[i]=array[i+1];
+        array[i+1]=temp;
+        swapped=true;
+      }
+
+    }
+    n--;
+  }while(swapped);
+}
+
+
+
+
+quickSort(List arr){
+  int n=arr.length;
+  if(n<=1){
+    return arr;
+  }
+  int middle=arr[n~/2];
+  List smaller=[];
+  List equal=[];
+  List larger=[];
+  int i=0;
+  while (i<n) {
+      int num=arr[i];
+      if (num<middle) {
+        smaller.add(arr[i]);
+      }
+      else if(num>middle){
+        larger.add(arr[i]);
+      }
+      else{
+        equal.add(arr[i]);
+      }
+      i++;
+  }
+  return [...quickSort(smaller),...equal,...quickSort(larger)];
+}
+mergeSort(List arr){
+  int mid=arr.length~/2;
+  if(arr.length<=1){
+    return arr;
+  }
+    List leftHalf=mergeSort(arr.sublist(0,mid));
+    List rightHalf=mergeSort(arr.sublist(mid));
+    return merge(leftHalf,rightHalf);
+
+}
+List merge(List leftHalf,List rightHalf){
+  List result=[];
+  int i=0;int j=0;
+  while (i<leftHalf.length&&j<rightHalf.length) {
+    if(leftHalf[i]<rightHalf[j]){
+      result.add(leftHalf[i]);
+      i++;
+    }
+    else{
+      result.add(rightHalf[j]);
+      j++;
+    }
+  }
+
+  result.addAll(leftHalf.sublist(i));
+  result.addAll(rightHalf.sublist(j));
+
+  return result;
+}
+
+
+selectionSort(List array){
+  int n=array.length;
+  for(int i=0;i<n-1;i++){
+    int minIndex=i;
+    for(int j=i+1;j<n;j++){
+      if(array[minIndex]>array[j]){
+        minIndex=j;
+      }
+    }
+    int temp=array[minIndex];
+    array[minIndex]=array[i];
+    array[i]=temp;
+  }
+}
+
+Hash Table
+Hashing Collsion
+
+class hashing{
+  List?table;
+  int? size;
+  hashing(int size){
+    this.table=List.filled(size,null);
+    this.size=size;
+  }
+  hash(String key){
+    int total=0;
+    for(var i=0;i<key.length;i++){
+      total+=key.codeUnitAt(i);
+    }
+    return total%size!;
+  }
+
+set(dynamic key,dynamic value){
+  int index=hash(key);
+  var bucket=table?[index];
+  if (bucket.isEmpty) {
+    table?[index]=[key,value];
+
+  }
+  else{
+
+     var samelement= bucket.firstWhere((item) => item[0] == key, orElse: () => []);
+    if(samelement.isNotEmpty){
+      samelement[1]=value;
+    }
+    else{
+      table?[index].add([key,value]);
+    }
+  }
+}
+get(dynamic key){
+  int index=hash(key);
+  var bucket=table?[index];
+  if(bucket.isNotEmpty){
+   var samelemnt=[];
+    for(var item in bucket){
+      if(item[0]==key){
+        samelemnt=item;
+        break;
+      }
+    }
+    if(samelemnt.isEmpty){
+      print(samelemnt);
+    }
+  }
+  return null;
+
+}
+dispaly(){
+  for(int i=0;i<size!;i++){
+    print('$i:${table?[i]}');
+  }
+}
+}
+
+void main() {
+  hashing newHash = hashing(10);
+  newHash.set('name', 20);
+  newHash.set('mane', 50);
+  newHash.get('mane');
+  newHash.dispaly();
+}
+
+
+class hashing{
+  List?table;
+  int? size;
+  hashing(int size){
+    this.table=List.filled(size, null);
+    this.size=size;
+  }
+  hash(String key){
+    int total=0;
+    for(int i=0;i<key.length;i++){
+      total+=key.codeUnitAt(i);
+    }
+    return total%size!;
+  }
+  set(key,value){
+    int index=hash(key);
+    table?[index]=value;
+  }
+  get(key){
+    int index=hash(key);
+    print(table?[index]);
+  }
+  dipslay(){
+    for(int i=0;i<table!.length;i++){
+      if(table?[i]!=null){
+        print('$i:${table?[i]}');
+      }
+    }
+  }
+  display(){
+    for(int i=0;i<table!.length;i++){
+      if(table?[i]!=null){
+        print('$i:${table?[i]}');
+      }
+    }
+  }
+}
+
+___________________________________________
